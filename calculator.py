@@ -14,6 +14,9 @@ def calculate():
         entry.delete(0, tk.END)
         entry.insert(tk.END, "Error")
 
+def clear():
+    entry.delete(0, tk.END)
+
 root = tk.Tk()
 root.title("Basic Calculator")
 
@@ -28,16 +31,15 @@ buttons = [
 ]
 
 for (text, row, col) in buttons:
-    button = tk.Button(root, text=text, width=5, height=2, font=("Arial", 14),
-                       command=lambda t=text: button_click(t))
+    if text == "=":
+        button = tk.Button(root, text=text, width=5, height=2, font=("Arial", 14),
+                           command=calculate)
+    elif text == "C":
+        button = tk.Button(root, text=text, width=5, height=2, font=("Arial", 14),
+                           command=clear)
+    else:
+        button = tk.Button(root, text=text, width=5, height=2, font=("Arial", 14),
+                           command=lambda t=text: button_click(t))
     button.grid(row=row, column=col, padx=5, pady=5)
-
-clear_button = tk.Button(root, text="C", width=5, height=2, font=("Arial", 14),
-                         command=lambda: entry.delete(0, tk.END))
-clear_button.grid(row=5, column=0, columnspan=2, padx=5, pady=5)
-
-calculate_button = tk.Button(root, text="Calculate", width=10, height=2, font=("Arial", 14),
-                             command=calculate)
-calculate_button.grid(row=5, column=2, columnspan=2, padx=5, pady=5)
 
 root.mainloop()
