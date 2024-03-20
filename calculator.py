@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 
 def button_click(symbol):
     current = entry.get()
@@ -18,29 +19,36 @@ def clear():
     entry.delete(0, tk.END)
 
 root = tk.Tk()
-root.title("Basic Calculator")
+root.title("Modern Calculator")
+root.geometry("400x400")
 
-entry = tk.Entry(root, width=20, font=("Arial", 14), justify="right")
-entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+style = ttk.Style()
+style.configure("TButton", font=("Arial", 14), padding=10)
+style.configure("TEntry", font=("Arial", 14), padding=10)
+
+entry = ttk.Entry(root, width=20, justify="right")
+entry.grid(row=0, column=0, columnspan=4, padx=10, pady=10, sticky="ew")
 
 buttons = [
     ("7", 1, 0), ("8", 1, 1), ("9", 1, 2), ("/", 1, 3),
     ("4", 2, 0), ("5", 2, 1), ("6", 2, 2), ("*", 2, 3),
     ("1", 3, 0), ("2", 3, 1), ("3", 3, 2), ("-", 3, 3),
     ("0", 4, 0), (".", 4, 1), ("=", 4, 2), ("+", 4, 3),
-    ("C", 4, 0)
+    ("C", 4, 0) 
 ]
 
 for (text, row, col) in buttons:
     if text == "=":
-        button = tk.Button(root, text=text, width=5, height=2, font=("Arial", 14),
-                           command=calculate)
+        button = ttk.Button(root, text=text, command=calculate)
     elif text == "C":
-        button = tk.Button(root, text=text, width=5, height=2, font=("Arial", 14),
-                           command=clear)
+        button = ttk.Button(root, text=text, command=clear)
     else:
-        button = tk.Button(root, text=text, width=5, height=2, font=("Arial", 14),
-                           command=lambda t=text: button_click(t))
-    button.grid(row=row, column=col, padx=5, pady=5)
+        button = ttk.Button(root, text=text, command=lambda t=text: button_click(t))
+    button.grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
+
+for i in range(4):
+    root.grid_columnconfigure(i, weight=1)
+for i in range(5):
+    root.grid_rowconfigure(i, weight=1)
 
 root.mainloop()
